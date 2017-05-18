@@ -34,16 +34,16 @@ class BinarySearchTree:
     def minimum(self, node=None):
         if node is None:
             node = self.root
-        while node is not None:
+        while node.left is not None:
             node = node.left
-        return node
+        return node.key
 
     def maximum(self, node=None):
         if node is None:
             node = self.root
-        while node is not None:
+        while node.right is not None:
             node = node.right
-        return node
+        return node.key
 
     def successor(self, node=None):
         if node is None:
@@ -84,3 +84,116 @@ class BinarySearchTree:
             parent.left = node
         else:
             parent.right = node
+
+    def height(self):
+        def _height(node):
+            if node is None:
+                return 0
+            return max(_height(node.left), _height(node.right)) + 1
+        return _height(self.root)
+
+
+class RedBlackNode(Node):
+    def __init__(self, key=None):
+        Node.__init__(self, key)
+        self.is_red = True
+
+
+class RedBlackTree(BinarySearchTree):
+    def __init__(self):
+        BinarySearchTree.__init__(self)
+
+        '''NIL special value'''
+        self.nil = RedBlackNode()
+        self.nil.is_red = False
+
+        self.root = self.nil
+
+    def insert(self, value):
+        def fix_up(node):
+            while node.parent.is_red:
+                if node.parent is node.parent.parent.left:
+                    uncle = node.parent.parent.right
+                    if uncle.is_red:
+                        node.parent.is_red = False
+                        uncle.is_red = False
+                        node.parent.parent.is_red = True
+                        node = node.parent.parent
+                    else:
+                        if node is node.parent.right:
+                            node = node.parent
+                            self.left_rotate(node)
+                        node.parent.is_red = False
+                        node.parent.parent.is_red = True
+                        self.right_rotate(node.parent.parent)
+                else:
+                    uncle = node.parent.parent.left
+                    if uncle.is_red:
+                        node.parent.is_red = False
+                        uncle.is_red = False
+                        node.parent.parent.is_red = True
+                        node = node.parent.parent
+                    else:
+                        if node is node.parent.left:
+                            node = node.parent
+                            self.right_rotate(node)
+                        node.parent.is_red = False
+                        node.parent.parent.is_red = True
+                        self.left_rotate(node.parent.parent)
+            self.root.is_red = False
+
+        node = RedBlackNode(value)
+        previous = self.nil
+        current = self.root
+
+        '''Find correct position'''
+        while current is not self.nil:
+            previous = current
+            if node.key < current.key:
+                current = current.left
+            else:
+                current = current.right
+
+        '''Insert value'''
+        node.parent = previous
+        if previous is self.nil:
+            self.root = node
+        elif node.key < previous.key:
+            previous.left = node
+        else:
+            previous.right = node
+
+        node.left = self.nil
+        node.right = self.nil
+        # node.is_red == True by default
+        fix_up(node)
+
+    def left_rotate(self, x):
+        y = x.right
+        x.right = y.left
+        if y.left.key is not None:
+            y.left.parent = x
+        y.parent = x.parent
+        if x.parent.key is None:
+            self.root = y
+        elif x == x.parent.left:
+            x.parent.left = y
+        else:
+            x.parent.right = y
+        y.left = x
+        x.parent = y
+
+    def right_rotate(self, x):
+        y = x.left
+        x.left = y.right
+        if y.right.key is not None:
+            y.right.parent = x
+        y.parent = x.parent
+        if x.parent.key is None:
+            self.root = y
+        elif x == x.parent.left:
+            x.parent.left = y
+        else:
+            x.parent.right = y
+        y.right = x
+        x.parent = y
