@@ -27,11 +27,11 @@ def insertion_test():
         print "Binary Search Tree height:", bin_search_tree.height()
         print "Red-Black Tree height:", red_black_tree.height()
         time = timer()
-        bin_search_tree.insert(100000)
+        bin_search_tree.insert(1000)
         time = timer() - time
         print "Binary Search Tree insertion time:", time
         time = timer()
-        red_black_tree.insert(100000)
+        red_black_tree.insert(1000)
         time = timer() - time
         print "Red-Black Tree insertion time:", time
 
@@ -54,11 +54,11 @@ def insertion_test():
         print "Binary Search Tree height:", bin_search_tree.height()
         print "Red-Black Tree height:", red_black_tree.height()
         time = timer()
-        bin_search_tree.insert(100000)
+        bin_search_tree.insert(1000)
         time = timer() - time
         print "Binary Search Tree insertion time:", time
         time = timer()
-        red_black_tree.insert(100000)
+        red_black_tree.insert(1000)
         time = timer() - time
         print "Red-Black Tree insertion time:", time
 
