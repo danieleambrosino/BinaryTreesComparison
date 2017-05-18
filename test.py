@@ -9,6 +9,11 @@ sizes = (10, 100, 995)
 
 
 def insertion_test():
+    print "\n"
+    print "##################"
+    print "# INSERTION TEST #"
+    print "##################"
+
     for size in sizes:
         print "\nSIZE:", size
 
@@ -64,13 +69,18 @@ def insertion_test():
 
 
 def max_min_test():
+    print "\n"
+    print "########################"
+    print "# MAXIMUM-MINIMUM TEST #"
+    print "########################"
+
     for size in sizes:
         print "\nSIZE:", size
 
         ####################
         # SEQUENTIAL TREES #
         ####################
-        print "\nSEQUENTIAL TREES:\n"
+        print "SEQUENTIAL TREES:"
 
         bin_search_tree = trees.BinarySearchTree()
         red_black_tree = trees.RedBlackTree()
@@ -102,7 +112,7 @@ def max_min_test():
         ################
         # RANDOM TREES #
         ################
-        print "\nRANDOM TREES:\n"
+        print "---\nRANDOM TREES:"
 
         bin_search_tree = trees.BinarySearchTree()
         red_black_tree = trees.RedBlackTree()
